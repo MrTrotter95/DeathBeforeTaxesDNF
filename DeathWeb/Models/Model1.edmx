@@ -1,0 +1,776 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DeathDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AccountTypeID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="HouseSavingsEnabled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AutomaticPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AccountID" Type="int" />
+          <Property Name="FK_FrequencyID" Type="int" />
+          <Property Name="FK_CategoryID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AutomaticPaymentLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AutomaticPaymentID" Type="int" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HouseSavings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AccountID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="GoalDate" Type="datetime" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="GoalAmount" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="IncomeStream">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_FrequencyID" Type="int" />
+          <Property Name="Person" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PaymentFrequency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SavingsGoal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AccountID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CurrentTotal" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="GoalAmount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="PurchaseDate" Type="datetime" />
+          <Property Name="ActualBuyPrice" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TransactionCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TransactionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_AccountID" Type="int" />
+          <Property Name="FK_TransactionTypeID" Type="int" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AccountType_ToTable">
+          <End Role="AccountType" Type="Self.AccountType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="FK_AccountTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_AccountID">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_CategoryID">
+          <End Role="TransactionCategory" Type="Self.TransactionCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_FrequencyID">
+          <End Role="PaymentFrequency" Type="Self.PaymentFrequency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentFrequency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_FrequencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HouseSavings_ToTable">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HouseSavings" Type="Self.HouseSavings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HouseSavings">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeStream_FrequencyID">
+          <End Role="PaymentFrequency" Type="Self.PaymentFrequency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IncomeStream" Type="Self.IncomeStream" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentFrequency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IncomeStream">
+              <PropertyRef Name="FK_FrequencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavingsGoal_ToTable">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SavingsGoal" Type="Self.SavingsGoal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SavingsGoal">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TransactionLog" Type="Self.TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionLog">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_AutomaticPaymentID">
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPaymentLog" Type="Self.AutomaticPaymentLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutomaticPayment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPaymentLog">
+              <PropertyRef Name="FK_AutomaticPaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransactionType">
+          <End Role="TransactionType" Type="Self.TransactionType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TransactionLog" Type="Self.TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionLog">
+              <PropertyRef Name="FK_TransactionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DeathDataModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutomaticPayment" EntityType="Self.AutomaticPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutomaticPaymentLog" EntityType="Self.AutomaticPaymentLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HouseSavings" EntityType="Self.HouseSavings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IncomeStream" EntityType="Self.IncomeStream" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentFrequency" EntityType="Self.PaymentFrequency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SavingsGoal" EntityType="Self.SavingsGoal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionCategory" EntityType="Self.TransactionCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionLog" EntityType="Self.TransactionLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionType" EntityType="Self.TransactionType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccountType_ToTable" Association="Self.FK_AccountType_ToTable">
+            <End Role="AccountType" EntitySet="AccountType" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_AccountID" Association="Self.FK_Automatic_Payment_AccountID">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_CategoryID" Association="Self.FK_Automatic_Payment_CategoryID">
+            <End Role="TransactionCategory" EntitySet="TransactionCategory" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_FrequencyID" Association="Self.FK_Automatic_Payment_FrequencyID">
+            <End Role="PaymentFrequency" EntitySet="PaymentFrequency" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HouseSavings_ToTable" Association="Self.FK_HouseSavings_ToTable">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="HouseSavings" EntitySet="HouseSavings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeStream_FrequencyID" Association="Self.FK_IncomeStream_FrequencyID">
+            <End Role="PaymentFrequency" EntitySet="PaymentFrequency" />
+            <End Role="IncomeStream" EntitySet="IncomeStream" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavingsGoal_ToTable" Association="Self.FK_SavingsGoal_ToTable">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="SavingsGoal" EntitySet="SavingsGoal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Account" Association="Self.FK_Transaction_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="TransactionLog" EntitySet="TransactionLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_AutomaticPaymentID" Association="Self.FK_Transaction_AutomaticPaymentID">
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayment" />
+            <End Role="AutomaticPaymentLog" EntitySet="AutomaticPaymentLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransactionType" Association="Self.FK_Transaction_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionType" />
+            <End Role="TransactionLog" EntitySet="TransactionLog" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DeathDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AccountTypeID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="HouseSavingsEnabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AccountType" Relationship="Self.FK_AccountType_ToTable" FromRole="Account" ToRole="AccountType" />
+          <NavigationProperty Name="AutomaticPayments" Relationship="Self.FK_Automatic_Payment_AccountID" FromRole="Account" ToRole="AutomaticPayment" />
+          <NavigationProperty Name="HouseSavings" Relationship="Self.FK_HouseSavings_ToTable" FromRole="Account" ToRole="HouseSavings" />
+          <NavigationProperty Name="SavingsGoals" Relationship="Self.FK_SavingsGoal_ToTable" FromRole="Account" ToRole="SavingsGoal" />
+          <NavigationProperty Name="TransactionLogs" Relationship="DeathDataModel.FK_Transaction_Account" FromRole="Account" ToRole="TransactionLog" />
+        </EntityType>
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_AccountType_ToTable" FromRole="AccountType" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="AutomaticPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AccountID" Type="Int32" />
+          <Property Name="FK_FrequencyID" Type="Int32" />
+          <Property Name="FK_CategoryID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_Automatic_Payment_AccountID" FromRole="AutomaticPayment" ToRole="Account" />
+          <NavigationProperty Name="TransactionCategory" Relationship="Self.FK_Automatic_Payment_CategoryID" FromRole="AutomaticPayment" ToRole="TransactionCategory" />
+          <NavigationProperty Name="PaymentFrequency" Relationship="Self.FK_Automatic_Payment_FrequencyID" FromRole="AutomaticPayment" ToRole="PaymentFrequency" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AutomaticPaymentLogs" Relationship="DeathDataModel.FK_Transaction_AutomaticPaymentID" FromRole="AutomaticPayment" ToRole="AutomaticPaymentLog" />
+        </EntityType>
+        <EntityType Name="HouseSaving">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AccountID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GoalDate" Type="DateTime" Precision="3" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="GoalAmount" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_HouseSavings_ToTable" FromRole="HouseSavings" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="PaymentFrequency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AutomaticPayments" Relationship="Self.FK_Automatic_Payment_FrequencyID" FromRole="PaymentFrequency" ToRole="AutomaticPayment" />
+          <NavigationProperty Name="IncomeStreams" Relationship="DeathDataModel.FK_IncomeStream_FrequencyID" FromRole="PaymentFrequency" ToRole="IncomeStream" />
+        </EntityType>
+        <EntityType Name="SavingsGoal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AccountID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CurrentTotal" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="GoalAmount" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="PurchaseDate" Type="DateTime" Precision="3" />
+          <Property Name="ActualBuyPrice" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_SavingsGoal_ToTable" FromRole="SavingsGoal" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="TransactionCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AutomaticPayments" Relationship="Self.FK_Automatic_Payment_CategoryID" FromRole="TransactionCategory" ToRole="AutomaticPayment" />
+        </EntityType>
+        <Association Name="FK_AccountType_ToTable">
+          <End Role="AccountType" Type="Self.AccountType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="FK_AccountTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_AccountID">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HouseSavings_ToTable">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HouseSavings" Type="Self.HouseSaving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HouseSavings">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavingsGoal_ToTable">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SavingsGoal" Type="Self.SavingsGoal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SavingsGoal">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_CategoryID">
+          <End Role="TransactionCategory" Type="Self.TransactionCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Automatic_Payment_FrequencyID">
+          <End Role="PaymentFrequency" Type="Self.PaymentFrequency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AutomaticPayment" Type="Self.AutomaticPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentFrequency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPayment">
+              <PropertyRef Name="FK_FrequencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DeathDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="AccountTypes" EntityType="Self.AccountType" />
+          <EntitySet Name="AutomaticPayments" EntityType="Self.AutomaticPayment" />
+          <EntitySet Name="HouseSavings" EntityType="Self.HouseSaving" />
+          <EntitySet Name="PaymentFrequencies" EntityType="Self.PaymentFrequency" />
+          <EntitySet Name="SavingsGoals" EntityType="Self.SavingsGoal" />
+          <EntitySet Name="TransactionCategories" EntityType="Self.TransactionCategory" />
+          <AssociationSet Name="FK_AccountType_ToTable" Association="Self.FK_AccountType_ToTable">
+            <End Role="AccountType" EntitySet="AccountTypes" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_AccountID" Association="Self.FK_Automatic_Payment_AccountID">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HouseSavings_ToTable" Association="Self.FK_HouseSavings_ToTable">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="HouseSavings" EntitySet="HouseSavings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavingsGoal_ToTable" Association="Self.FK_SavingsGoal_ToTable">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="SavingsGoal" EntitySet="SavingsGoals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_CategoryID" Association="Self.FK_Automatic_Payment_CategoryID">
+            <End Role="TransactionCategory" EntitySet="TransactionCategories" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Automatic_Payment_FrequencyID" Association="Self.FK_Automatic_Payment_FrequencyID">
+            <End Role="PaymentFrequency" EntitySet="PaymentFrequencies" />
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayments" />
+          </AssociationSet>
+          <EntitySet Name="IncomeStreams" EntityType="DeathDataModel.IncomeStream" />
+          <EntitySet Name="TransactionLogs" EntityType="DeathDataModel.TransactionLog" />
+          <EntitySet Name="TransactionTypes" EntityType="DeathDataModel.TransactionType" />
+          <AssociationSet Name="FK_Transaction_Account" Association="DeathDataModel.FK_Transaction_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="TransactionLog" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IncomeStream_FrequencyID" Association="DeathDataModel.FK_IncomeStream_FrequencyID">
+            <End Role="PaymentFrequency" EntitySet="PaymentFrequencies" />
+            <End Role="IncomeStream" EntitySet="IncomeStreams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransactionType" Association="DeathDataModel.FK_Transaction_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionTypes" />
+            <End Role="TransactionLog" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <EntitySet Name="AutomaticPaymentLogs" EntityType="DeathDataModel.AutomaticPaymentLog" />
+          <AssociationSet Name="FK_Transaction_AutomaticPaymentID" Association="DeathDataModel.FK_Transaction_AutomaticPaymentID">
+            <End Role="AutomaticPayment" EntitySet="AutomaticPayments" />
+            <End Role="AutomaticPaymentLog" EntitySet="AutomaticPaymentLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="IncomeStream">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_FrequencyID" Type="Int32" />
+          <Property Name="Person" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PaymentFrequency" Relationship="DeathDataModel.FK_IncomeStream_FrequencyID" FromRole="IncomeStream" ToRole="PaymentFrequency" />
+        </EntityType>
+        <EntityType Name="TransactionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AccountID" Type="Int32" />
+          <Property Name="FK_TransactionTypeID" Type="Int32" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <NavigationProperty Name="Account" Relationship="DeathDataModel.FK_Transaction_Account" FromRole="TransactionLog" ToRole="Account" />
+          <NavigationProperty Name="TransactionType" Relationship="DeathDataModel.FK_Transaction_TransactionType" FromRole="TransactionLog" ToRole="TransactionType" />
+        </EntityType>
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TransactionLogs" Relationship="DeathDataModel.FK_Transaction_TransactionType" FromRole="TransactionType" ToRole="TransactionLog" />
+        </EntityType>
+        <Association Name="FK_Transaction_Account">
+          <End Type="DeathDataModel.Account" Role="Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeathDataModel.TransactionLog" Role="TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionLog">
+              <PropertyRef Name="FK_AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IncomeStream_FrequencyID">
+          <End Type="DeathDataModel.PaymentFrequency" Role="PaymentFrequency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeathDataModel.IncomeStream" Role="IncomeStream" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentFrequency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IncomeStream">
+              <PropertyRef Name="FK_FrequencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransactionType">
+          <End Type="DeathDataModel.TransactionType" Role="TransactionType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeathDataModel.TransactionLog" Role="TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionLog">
+              <PropertyRef Name="FK_TransactionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AutomaticPaymentLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_AutomaticPaymentID" Type="Int32" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AutomaticPayment" Relationship="DeathDataModel.FK_Transaction_AutomaticPaymentID" FromRole="AutomaticPaymentLog" ToRole="AutomaticPayment" />
+        </EntityType>
+        <Association Name="FK_Transaction_AutomaticPaymentID">
+          <End Type="DeathDataModel.AutomaticPayment" Role="AutomaticPayment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeathDataModel.AutomaticPaymentLog" Role="AutomaticPaymentLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutomaticPayment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutomaticPaymentLog">
+              <PropertyRef Name="FK_AutomaticPaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DeathDataModelStoreContainer" CdmEntityContainer="DeathDataEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="DeathDataModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FK_AccountTypeID" ColumnName="FK_AccountTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="HouseSavingsEnabled" ColumnName="HouseSavingsEnabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountTypes">
+            <EntityTypeMapping TypeName="DeathDataModel.AccountType">
+              <MappingFragment StoreEntitySet="AccountType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutomaticPayments">
+            <EntityTypeMapping TypeName="DeathDataModel.AutomaticPayment">
+              <MappingFragment StoreEntitySet="AutomaticPayment">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FK_AccountID" ColumnName="FK_AccountID" />
+                <ScalarProperty Name="FK_FrequencyID" ColumnName="FK_FrequencyID" />
+                <ScalarProperty Name="FK_CategoryID" ColumnName="FK_CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HouseSavings">
+            <EntityTypeMapping TypeName="DeathDataModel.HouseSaving">
+              <MappingFragment StoreEntitySet="HouseSavings">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FK_AccountID" ColumnName="FK_AccountID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="GoalDate" ColumnName="GoalDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GoalAmount" ColumnName="GoalAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentFrequencies">
+            <EntityTypeMapping TypeName="DeathDataModel.PaymentFrequency">
+              <MappingFragment StoreEntitySet="PaymentFrequency">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SavingsGoals">
+            <EntityTypeMapping TypeName="DeathDataModel.SavingsGoal">
+              <MappingFragment StoreEntitySet="SavingsGoal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FK_AccountID" ColumnName="FK_AccountID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CurrentTotal" ColumnName="CurrentTotal" />
+                <ScalarProperty Name="GoalAmount" ColumnName="GoalAmount" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="ActualBuyPrice" ColumnName="ActualBuyPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionCategories">
+            <EntityTypeMapping TypeName="DeathDataModel.TransactionCategory">
+              <MappingFragment StoreEntitySet="TransactionCategory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncomeStreams">
+            <EntityTypeMapping TypeName="DeathDataModel.IncomeStream">
+              <MappingFragment StoreEntitySet="IncomeStream">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Person" ColumnName="Person" />
+                <ScalarProperty Name="FK_FrequencyID" ColumnName="FK_FrequencyID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionLogs">
+            <EntityTypeMapping TypeName="DeathDataModel.TransactionLog">
+              <MappingFragment StoreEntitySet="TransactionLog">
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="FK_TransactionTypeID" ColumnName="FK_TransactionTypeID" />
+                <ScalarProperty Name="FK_AccountID" ColumnName="FK_AccountID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionTypes">
+            <EntityTypeMapping TypeName="DeathDataModel.TransactionType">
+              <MappingFragment StoreEntitySet="TransactionType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutomaticPaymentLogs">
+            <EntityTypeMapping TypeName="DeathDataModel.AutomaticPaymentLog">
+              <MappingFragment StoreEntitySet="AutomaticPaymentLog">
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="FK_AutomaticPaymentID" ColumnName="FK_AutomaticPaymentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

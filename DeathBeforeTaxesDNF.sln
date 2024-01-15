@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DeathData", "DeathData\DeathData.sqlproj", "{415D02F6-5ABF-45C8-B658-79E6988EE66E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeathWeb", "DeathWeb\DeathWeb.csproj", "{F0633227-F86E-40C1-AB05-34F3EB9BA32C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{415D02F6-5ABF-45C8-B658-79E6988EE66E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F0633227-F86E-40C1-AB05-34F3EB9BA32C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0633227-F86E-40C1-AB05-34F3EB9BA32C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0633227-F86E-40C1-AB05-34F3EB9BA32C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0633227-F86E-40C1-AB05-34F3EB9BA32C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {427C3BDB-C3DB-4FD5-932F-03BEF9C6ECA0}
+	EndGlobalSection
+EndGlobal

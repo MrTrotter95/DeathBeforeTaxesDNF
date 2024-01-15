@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c737f583-763d-468b-9026-1a9893cae839" ChangeDateTime="01/14/2024 06:19:10">
+    <Property Name="ElementName" Value="[dbo].[AutomaticPayment].[StartDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AutomaticPayment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DueDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4a69ce49-a3c3-4c7a-8045-19396dd57403" ChangeDateTime="01/14/2024 06:19:14">
+    <Property Name="ElementName" Value="[dbo].[AutomaticPayment].[EndDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AutomaticPayment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsPaid" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="821bfd14-aa23-487c-b3e2-48d94f127b20" ChangeDateTime="01/15/2024 05:09:47">
+    <Property Name="ElementName" Value="[dbo].[AutomaticPayment].[DueDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AutomaticPayment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StartDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ad5e407-b60b-4f03-bdff-52ccaf766ad4" ChangeDateTime="01/15/2024 05:10:18">
+    <Property Name="ElementName" Value="[dbo].[AutomaticPayment].[IsPaid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AutomaticPayment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EndDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="46b08c1b-eb87-48f5-8b93-09a1da529608" ChangeDateTime="01/15/2024 05:11:28">
+    <Property Name="ElementName" Value="[dbo].[AutomaticPaymentLog].[FK_AccountID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AutomaticPaymentLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_AutomaticPaymentID" />
+  </Operation>
+</Operations>

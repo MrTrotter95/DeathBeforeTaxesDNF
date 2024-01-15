@@ -1,0 +1,51 @@
+﻿@model DeathWeb.Models.AutomaticPayment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.FK_AccountID)
+    @Html.HiddenFor(model => model.FK_FrequencyID)
+    @Html.HiddenFor(model => model.FK_CategoryID)
+
+
+
+<div class="col-sm-12">
+    <div class="card ">
+
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.Name)</h5>
+            <h5 class="card-title">@Html.DisplayFor(model => model.Amount)</h5>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartDate)
+                @Html.DisplayFor(model => model.StartDate)
+            </div>
+            <div class="form-group">
+                @Html.Label("Transaction Category")
+                @Html.DisplayFor(model => model.TransactionCategory.Name)
+
+            </div>
+            @Html.Label("Payment Frequency")
+            @Html.DisplayFor(model => model.PaymentFrequency.Name)
+        <div>
+            <a href="#" class="btn btn-primary">Pay</a>
+        </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,124 @@
+﻿@model DeathWeb.ViewModels.Account.AccountViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Account.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<h2>@Html.DisplayFor(model => model.Account.Name)</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Amount)
+        </dd>
+
+        @if (Model.Account.AccountType.ID == 3)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Account.HouseSavingsEnabled)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Account.HouseSavingsEnabled)
+            </dd>
+        }
+
+
+        <dt>
+            Account Type
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Account.AccountType.Name)
+        </dd>
+
+    </dl>
+</div>
+
+
+<br />
+<h2>Did you pay these?</h2>
+
+@if (Model.Account.AccountType.ID == 2)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Due Date
+            </th>
+            <th>
+                Is Paid
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Frequency
+            </th>
+        </tr>
+
+        @foreach (var item in Model.ExpensesToPay)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isPaid)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.TransactionCategory.Name)*@
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.PaymentFrequency.Name)*@
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+
+
+<h2>Expenses To Pay</h2>
+
+<div class="d-flex flex-wrap">
+    @foreach (var item in Model.AutomaticPayments)
+    {
+        @Html.Partial("~/Views/AutomaticPayments/_ItemToPay.cshtml", item)
+    }
+</div>
+
+
+
+
+
+

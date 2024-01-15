@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a31a3428bb54c0284001732e8dc6ab4" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="DeathDataModel.Account" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.AccountType" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.AutomaticPayment" PointX="5.25" PointY="3.625" Width="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.HouseSaving" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.PaymentFrequency" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.SavingsGoal" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeathDataModel.TransactionCategory" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DeathDataModel.FK_AccountType_ToTable" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="DeathDataModel.FK_Automatic_Payment_AccountID" />
+        <AssociationConnector Association="DeathDataModel.FK_HouseSavings_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="DeathDataModel.FK_SavingsGoal_ToTable" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="DeathDataModel.FK_Automatic_Payment_CategoryID" />
+        <AssociationConnector ManuallyRouted="false" Association="DeathDataModel.FK_Automatic_Payment_FrequencyID" />
+        <EntityTypeShape EntityType="DeathDataModel.IncomeStream" Width="1.5" PointX="5.25" PointY="18.25" />
+        <EntityTypeShape EntityType="DeathDataModel.TransactionLog" Width="1.5" PointX="8.25" PointY="7.125" />
+        <EntityTypeShape EntityType="DeathDataModel.TransactionType" Width="1.5" PointX="6" PointY="0.75" />
+        <AssociationConnector Association="DeathDataModel.FK_Transaction_Account" />
+        <AssociationConnector Association="DeathDataModel.FK_IncomeStream_FrequencyID" />
+        <AssociationConnector Association="DeathDataModel.FK_Transaction_TransactionType" />
+        <EntityTypeShape EntityType="DeathDataModel.AutomaticPaymentLog" Width="1.5" PointX="8.375" PointY="4.125" />
+        <AssociationConnector Association="DeathDataModel.FK_Transaction_AutomaticPaymentID" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

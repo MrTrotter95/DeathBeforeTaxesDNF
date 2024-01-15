@@ -1,0 +1,66 @@
+﻿@model DeathWeb.Models.SavingsGoal
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SavingsGoal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GoalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoalAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualBuyPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualBuyPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

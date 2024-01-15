@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[HouseSavings]
+(
+	[ID] INT IDENTITY (1, 1) NOT NULL,
+	[FK_AccountID] INT NULL,
+	[Name] NVARCHAR (50) NOT NULL,
+	[StartDate] DATETIME NOT NULL,
+	[GoalDate] DATETIME NULL,
+	[Amount] DECIMAL(8,2) NULL,
+	[GoalAmount] DECIMAL(8,2) NULL,
+	PRIMARY KEY CLUSTERED ([ID] ASC), 
+    CONSTRAINT [FK_HouseSavings_ToTable] FOREIGN KEY ([FK_AccountID]) 
+		REFERENCES [dbo].[Account]([ID]) ON DELETE CASCADE,
+)
